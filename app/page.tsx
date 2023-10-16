@@ -8,14 +8,16 @@ import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Review from "@/components/Review/Review";
 import Stats from "@/components/Stats/Stats";
 import MakeUsSpecial from "@/components/makeUsSpecial/makeUsSpecial";
+import Image from "next/image";
+import Text from '../public/MindWellText.png'
 
  
 export default function Home() {
   return (
-    <div className="bg-slate-50">
+    <div className="bg-yellow-50">
       <div className="flex flex-col items-center justify-center">
       <h1 className="scroll-m-20  tracking-tight text-3xl p-5 italic bg-gradient-to-r text-transparent font-normal from-teal-500 to-teal-400 bg-clip-text">
-  Greetings From <span className="bg-gradient-to-r text-transparent from-teal-500 to-teal-400 bg-clip-text font-normal">Mind-Wellbeing</span>
+  Greetings From <span className="bg-gradient-to-r text-transparent from-teal-500 to-teal-400 bg-clip-text font-normal"><Image src={Text} alt="Text-pic " width={160} height={130} /></span>
 </h1>
   <p className="text-sm font-bold pl-20 italic">Your Journey to Inner Peace</p>
 </div>

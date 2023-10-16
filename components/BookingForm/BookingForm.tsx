@@ -1,9 +1,11 @@
 'use client'
 import React from 'react';
+import { FormDataType } from '@/Types/Types';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import {  format } from "date-fns";
+import {z} from 'zod'
 import {
   Popover,
   PopoverContent,
@@ -23,22 +25,54 @@ import {
 } from "@/components/ui/select";
 
 export default function BookingForm() {
-  const [date, setDate] = React.useState<Date>();
 
-  return (
+  const formSchema = z.object({
+    duration: z.string(),
+    email: z.string().email("Enter Valid Email Address"),
+    phoneNumber: z.string().min(5,"Please Enter Valid Phone Number"),
+    Time: z.date(),
+    typeOfTherapy: z.string(),
+    username: z.string(),
+  });
+  
+  const [date, setDate] = React.useState<Date>();
+  
+  const [form,setForm] = React.useState<FormDataType>({
+    duration:'',
+    email:'',
+    phoneNumber:'',
+    Time:date!,
+    typeOfTherapy:'',
+    username:''
+  });
+
+  const [errors, setErrors] = React.useState({
+    username: '',
+    typeOfTherapy: '',
+    Time: '',
+    phoneNumber: '',
+    duration: '',
+    email:''
+  });
+
+  const handleSubmit = () =>{
+    console.log(form);
+    
+  }
+   return (
     <div className="flex justify-center pt-2">
       <div className="grid w-full max-w-sm items-center gap-1.5 p-5">
         <Label htmlFor="Fullname" className="pt-2" >Full Name</Label>
-        <Input type="text" id="Fullname" placeholder="Full Name" />
+        <Input type="text" id="Fullname" placeholder="Full Name" onChange={(e)=>setForm({...form,username:e.target.value})} />
 
         <Label htmlFor="email" className="pt-2" >Email</Label>
-        <Input type="email" id="email" placeholder="Email" />
+        <Input type="email" id="email" placeholder="Email" onChange={(e)=>setForm({...form,email:e.target.value})}/>
 
         <Label htmlFor="Phone-Number" className="pt-2" >Phone Number</Label>
-        <Input type="text" id="Phone-Number" placeholder="Phone Number" />
+        <Input type="text" id="Phone-Number" placeholder="Phone Number"  onChange={(e)=>setForm({...form,phoneNumber:e.target.value})}/>
 
         <Label htmlFor="Type-of-Therapy" className="pt-2" >Type of Therapy</Label>
-        <Select>
+        <Select onValueChange={(value)=>setForm({...form,typeOfTherapy:value})}>
           <SelectTrigger className="w-[180px]" id="Type-of-Therapy">
             <SelectValue placeholder="Select a Therapy Type" />
           </SelectTrigger>
@@ -55,7 +89,7 @@ export default function BookingForm() {
         </Select>
 
         <Label htmlFor="Duration" className="pt-2" >Select Therapist Duration</Label>
-        <Select>
+        <Select onValueChange={(value)=>setForm({...form,duration:value})}>
           <SelectTrigger className="w-[180px]" id="Duration">
             <SelectValue placeholder="Select Duration:" />
           </SelectTrigger>
@@ -89,7 +123,7 @@ export default function BookingForm() {
           </PopoverContent>
         </Popover>
 
-        <Button className="bg-teal-400 hover:bg-teal-500 mt-2" >Book</Button>
+        <Button className="bg-teal-400 hover:bg-teal-500 mt-2" onClick={handleSubmit}>Book</Button>
       </div>
     </div>
   );
